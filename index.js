@@ -38,8 +38,9 @@ async function run() {
 
         // show specific user items API
         app.get('/newitem', async (req, res) => {
-            const query = {};
-            const cursor = itemCollection.find(query);
+            const email = req.query.email;
+            const query = { email: email };
+            const cursor = newItemCollection.find(query);
             const orders = await cursor.toArray();
             res.send(orders);
         })
