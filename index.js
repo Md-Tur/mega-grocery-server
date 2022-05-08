@@ -26,6 +26,7 @@ async function run() {
     try {
         await client.connect();
         const itemCollection = client.db('megaGrocery').collection('items');
+        const newItemCollection = client.db('megaGrocery').collection('newitem');
 
         //all data get
         app.get('/item', async (req, res) => {
@@ -34,6 +35,13 @@ async function run() {
             const items = await cursor.toArray();
             res.send(items);
         });
+
+        // add new item
+        app.post('/newitem', async (req, res) => {
+            const newItem = req.body;
+            const result = await newItemCollection.insertOne(newItem);
+            res.send(result);
+        })
     }
     finally {
 
