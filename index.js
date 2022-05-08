@@ -28,7 +28,7 @@ async function run() {
         const itemCollection = client.db('megaGrocery').collection('items');
         const newItemCollection = client.db('megaGrocery').collection('newitem');
 
-        //all data get
+        //all data get API
         app.get('/item', async (req, res) => {
             const query = {};
             const cursor = itemCollection.find(query);
@@ -36,7 +36,15 @@ async function run() {
             res.send(items);
         });
 
-        // add new item
+        // show specific user items API
+        app.get('/newitem', async (req, res) => {
+            const query = {};
+            const cursor = itemCollection.find(query);
+            const orders = await cursor.toArray();
+            res.send(orders);
+        })
+
+        // add new item API
         app.post('/newitem', async (req, res) => {
             const newItem = req.body;
             const result = await newItemCollection.insertOne(newItem);
